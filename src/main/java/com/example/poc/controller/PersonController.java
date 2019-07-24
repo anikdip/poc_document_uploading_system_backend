@@ -2,10 +2,7 @@ package com.example.poc.controller;
 
 import com.example.poc.exception.ResourceNotFoundException;
 import com.example.poc.model.*;
-import com.example.poc.repository.DrivingLicenseRepository;
-import com.example.poc.repository.NIDRepository;
-import com.example.poc.repository.PersonRepository;
-import com.example.poc.repository.TradeLicenseRepository;
+import com.example.poc.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,6 +23,8 @@ import java.util.*;
 public class PersonController {
     @Autowired
     PersonRepository personRepository;
+    @Autowired
+    PersonDocumentInfoRepository personDocumentInfoRepository;
     @Autowired
     NIDRepository nidRepository;
     @Autowired
@@ -115,6 +114,7 @@ public class PersonController {
                 .orElseThrow(() -> new ResourceNotFoundException("Person not found for this id :: " + personId));
 
         personRepository.delete(person);
+        personDocumentInfoRepository.deleteByPersonId(personId);
         nidRepository.deleteByPersonId(personId);
         drivingLicenseRepository.deleteByPersonId(personId);
         tradeLicenseRepository.deleteByPersonId(personId);

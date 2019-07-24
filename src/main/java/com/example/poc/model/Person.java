@@ -2,6 +2,7 @@ package com.example.poc.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "person")
@@ -16,6 +17,9 @@ public class Person implements Serializable {
     private String fathername;
     private String mothername;
     private long mobileno;
+
+    @OneToMany(mappedBy="person", cascade = CascadeType.ALL)
+    List<PersonDocumentInfo> personDocumentInfos;
 
     public Person(){
 
@@ -34,6 +38,7 @@ public class Person implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 
+    @Column(name = "person_id", nullable = false)
     public long getId() {
         return id;
     }
@@ -104,6 +109,14 @@ public class Person implements Serializable {
     public void setMobileno(long mobileno) {
         this.mobileno = mobileno;
     }
+
+//    public List<PersonDocumentInfo> getPersonDocumentInfos() {
+//        return personDocumentInfos;
+//    }
+//
+//    public void setPersonDocumentInfos(List<PersonDocumentInfo> personDocumentInfos) {
+//        this.personDocumentInfos = personDocumentInfos;
+//    }
 
     @Override
     public String toString() {
